@@ -85,7 +85,7 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the conceptual design.
 
 - [x] Core gateway design
 - [x] Standard chat interface contract
-- [ ] Multi-app orchestration layer *(in progress — Base44 build)*
+- [ ] Multi-app orchestration layer *(in progress — Bumboclaat build)*
 - [ ] Admin console + observability
 - [ ] Public open-source release of the full source 🎯
 - [ ] Self-host guide + one-click deploy template
