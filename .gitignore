@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Env & secrets — NEVER commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+wrangler.toml
+.dev.vars
+.secrets/
+
+# Cloudflare
+.wrangler/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
