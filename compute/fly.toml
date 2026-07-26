@@ -1,0 +1,26 @@
+app = "your-compute-app"
+primary_region = "ewr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+# Public service = the BRIDGE (session-gated), port 8080. OpenCode stays on loopback only.
+# Scale-to-zero: suspend on idle, resume on request = ~$0 when nobody is coding.
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 1
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1024mb"
+
+[env]
+  OPENCODE_CONFIG = "/home/vibe/.config/opencode/opencode.json"
+  GATE_URL = "https://gate.example.com"

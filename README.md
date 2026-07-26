@@ -3,110 +3,117 @@
 > **Your apps, orchestrated. One conductor for a whole ecosystem of AI-native tools.**
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-in%20development-orange?style=for-the-badge" alt="Status: In Development"/>
+  <img src="https://img.shields.io/badge/status-open%20source-brightgreen?style=for-the-badge" alt="Status: Open Source"/>
   <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="License: MIT"/>
-  <img src="https://img.shields.io/badge/open%20source-coming%20soon-brightgreen?style=for-the-badge" alt="Open Source Coming Soon"/>
-  <img src="https://img.shields.io/badge/built%20with-Cloudflare%20Workers-f38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Built with Cloudflare Workers"/>
+  <img src="https://img.shields.io/badge/edge-Cloudflare%20Workers-f38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers"/>
+  <img src="https://img.shields.io/badge/agent-OpenCode%20(hardened)-8b7bff?style=for-the-badge" alt="OpenCode, hardened"/>
 </p>
 
-**Live:** [vibemaestro.app](https://vibemaestro.app)
-
-Built and maintained by **[VPDLNY](https://github.com/vpdlny)**.
+**Live:** [vibemaestro.app](https://vibemaestro.app) · Built and maintained by **[VPDLNY](https://github.com/vpdlny)**.
 
 ---
 
-> ### 🚧 Code coming soon
-> VibeMaestro is under active development. This repository is the public home for the
-> project — architecture, philosophy, and roadmap live here today. **The full source
-> will be published here, open, once the core stabilizes.** No black boxes. No lock-in.
-> When it ships, you'll be able to read every line.
+This is a **generic, self-hostable starting point** for building your own vibe-coding
+platform — with an advanced backend already in place. We forked [OpenCode](https://opencode.ai),
+hardened it for multi-user production, and wrapped it in the orchestration layer we run in
+production. Fork this, add your own front-end, and you have a real platform on day one instead
+of month three.
 
----
+No black boxes. No lock-in. Every value is a placeholder — bring your own keys.
 
-## What it is
+## What you get
 
-VibeMaestro is a **conductor for AI-native apps** — a single orchestration layer that lets a
-fleet of small, focused tools talk to one shared intelligence gateway instead of each
-reinventing the wheel.
-
-- 🎼 **One gateway, many apps** — every tool speaks to a single, consistent AI layer
-- 🤖 **Model-agnostic** — the gateway abstracts the model behind a stable, standard chat interface
-- 🔌 **Plug-in bots** — new apps join the ecosystem by connecting to the gateway, not by re-embedding keys or logic
-- 🛡️ **Secrets stay server-side** — apps never hold raw model credentials; the gateway does
-- ⚡ **Edge-first** — built to run on Cloudflare's global network for low-latency responses everywhere
+- 🎼 **A model gateway** — one OpenAI-shaped endpoint for every app, with **per-user spend caps** and a **free-tier fallback that costs ~$0**.
+- 🔐 **A Discord-OAuth auth gate** — membership-gated login + a single `/verify` other services call. Branded, self-contained, zero external deps.
+- ⚙️ **A hardened OpenCode compute plane** — OpenCode is a superb coding agent but its server is *unauthenticated*. Our bridge keeps it private, session-gates it, and **namespaces each user to their own workspace**.
+- 🗄️ **A ready schema** — D1 tables for users, sessions, custom agents + memory, invoices, published apps.
+- 🧠 **A craftsmanship-tuned agent pack** — `capy-pack` ships opinionated build rules ("ship real working code, never a placeholder") wired straight into OpenCode.
 
 ## What it isn't
 
 - ❌ Not another chatbot wrapper
-- ❌ Not a walled garden — it's going fully open source
+- ❌ Not a walled garden — MIT, fork it freely
 - ❌ Not tied to a single model vendor
-- ❌ Not a data-harvesting funnel
+- ❌ Not a data-harvesting funnel — secrets stay server-side
 
-## Why we're building it
+## The three planes
 
-Every new AI app tends to re-implement the same plumbing: model calls, auth, retries,
-formatting, rate limits. That's wasted effort and a security liability — keys end up
-scattered across a dozen codebases.
+| Plane | File | Job |
+|---|---|---|
+| **Auth gate** | `workers/gate-worker.js` | Discord login, membership gating, session `/verify` |
+| **Model gateway** | `workers/gw-worker.js` | OpenAI-shaped chat proxy, per-user spend caps, free fallback |
+| **Compute bridge** | `compute/bridge/server.js` | The only public, session-gated door to a private OpenCode |
 
-VibeMaestro centralizes the hard parts into one well-guarded conductor, so each app can
-stay small, safe, and focused on what it actually does. Build the app; let the maestro
-handle the orchestra.
+Full picture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
----
+## Why the OpenCode fork matters
 
-## How it works (high level)
+Plain OpenCode exposes an unauthenticated server — fine for your laptop, a liability for a
+multi-user platform. VibeMaestro's bridge is the fix:
 
-```mermaid
-flowchart LR
-    A1[App / Bot A] -->|standard chat request| G((VibeMaestro<br/>Gateway))
-    A2[App / Bot B] -->|standard chat request| G
-    A3[App / Bot C] -->|standard chat request| G
-    G -->|routes + guards + formats| M[[AI Model Layer]]
-    M -->|response| G
-    G -->|clean reply| A1
-    G -->|clean reply| A2
-    G -->|clean reply| A3
-    subgraph Server-side only
-      G
-      M
-    end
+- OpenCode stays **private + password-gated** on `127.0.0.1:4096`, never public.
+- Every request is **verified against the auth gate** before it reaches the agent.
+- Each user gets **their own OpenCode session**, derived from their Discord id — no cross-talk.
+- OpenCode is wired to the **model gateway** as an OpenAI-compatible provider, so builds
+  inherit the same spend caps and free-tier fallback as everything else.
+
+You get OpenCode's power, made safe for production.
+
+## Quick start
+
+```bash
+git clone https://github.com/indicaindependent/vibemaestro.git
+cd vibemaestro
+cp .env.example .dev.vars      # fill in real values
+./scripts/setup.sh            # creates D1 + KV, applies schema
 ```
 
-1. **Apps send a standard chat request** to the gateway — no model keys, no vendor-specific glue.
-2. **The gateway authenticates the app**, applies guards (rate limits, safety, formatting), and routes the request to the appropriate model.
-3. **The model responds**, the gateway normalizes the output, and hands each app back a clean, predictable reply.
-4. **Credentials never leave the server.** Apps only ever hold a scoped connection to the maestro.
+Then follow [`docs/DEPLOY.md`](docs/DEPLOY.md) to deploy the gate, the gateway, and the
+compute plane. You need a Cloudflare account (Workers/D1/KV/AI Gateway — all free-tier),
+a Fly.io account (compute), and a Discord app (login). ~30 minutes end to end.
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the conceptual design.
+## Layout
 
----
+```
+vibemaestro/
+├── workers/
+│   ├── gate-worker.js        # auth gate (Discord OAuth + sessions)
+│   ├── gw-worker.js          # model gateway (spend caps + free fallback)
+│   └── wrangler.*.toml       # per-worker deploy config
+├── compute/
+│   ├── bridge/server.js      # hardened OpenCode bridge  ← the fork
+│   ├── capy-pack/            # OpenCode agent config + craft rules
+│   ├── Dockerfile / fly.toml # compute-plane image
+│   └── entrypoint.sh
+├── d1/schema.sql             # the whole database
+├── scripts/setup.sh          # one-shot bootstrap
+├── docs/ARCHITECTURE.md      # how the planes fit together
+├── docs/DEPLOY.md            # self-host walkthrough
+└── .env.example              # the full binding contract (all placeholders)
+```
 
-## Roadmap
+## Security
 
-- [x] Core gateway design
-- [x] Standard chat interface contract
-- [ ] Multi-app orchestration layer *(in progress — Bumboclaat build)*
-- [ ] Admin console + observability
-- [ ] Public open-source release of the full source 🎯
-- [ ] Self-host guide + one-click deploy template
-
----
+- Every secret is an environment binding — **nothing real is committed**. See `.env.example`.
+- The OpenCode server is **never** exposed; only the session-gated bridge is public.
+- Model credentials live in the gateway; apps only ever hold a scoped session.
+- Run a secret scan before you push your fork. `.gitignore` already blocks the usual offenders.
 
 ## Philosophy
 
 VibeMaestro is part of the **VPDLNY** mission — free, independent, open tooling with no VC,
-no boss, no strings. When the code lands here, it lands in the open.
+no boss, no strings. The code lives in the open because it should.
 
 <p align="center">
   <sub>Built by <a href="https://osintnet.uk">Indica Independent</a> · <a href="https://github.com/vpdlny">VPDLNY</a> · info is the weapon ⚔️</sub>
 </p>
 
-
 ---
 
 ## ⚡ Support the Mission
 
-This is free, ad-free, independent infrastructure — no VC, no gov funding, no strings. If it served you, a tip keeps it alive and funds the next tool.
+Free, ad-free, independent infrastructure — no VC, no gov funding, no strings. If it served
+you, a tip keeps it alive and funds the next tool.
 
 [![Donate via SkyGive](https://img.shields.io/badge/💜_Donate_via_SkyGive-8A5CF6?style=for-the-badge&logoColor=white)](https://donate.skygive.app/)
 [![Lightning](https://img.shields.io/badge/⚡_tips@skygive.app-F7931A?style=for-the-badge&logo=lightning&logoColor=white)](https://donate.skygive.app/)

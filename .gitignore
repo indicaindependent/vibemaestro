@@ -1,25 +1,22 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Env & secrets — NEVER commit
+# ── secrets: never commit ──
+.dev.vars
 .env
 .env.*
 !.env.example
-*.key
+*_LOCAL.txt
+*SECRET*.txt
+*KEY*.txt
+*TOKEN*.txt
+*PASSWORD*.txt
 *.pem
-wrangler.toml
-.dev.vars
-.secrets/
+*.key
+d1/DB_UUID.txt
+d1/KV_SESSIONS_ID.txt
 
-# Cloudflare
+# tooling
+node_modules/
 .wrangler/
 dist/
-
-# OS / editor
-.DS_Store
-Thumbs.db
+.fly/
 *.log
-.idea/
-.vscode/
+.DS_Store
