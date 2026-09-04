@@ -23,18 +23,18 @@ No black boxes. No lock-in. Every value is a placeholder — bring your own keys
 
 ## What you get
 
-- 🎼 **A model gateway** — one OpenAI-shaped endpoint for every app, with **per-user spend caps** and a **free-tier fallback that costs ~$0**.
-- 🔐 **A Discord-OAuth auth gate** — membership-gated login + a single `/verify` other services call. Branded, self-contained, zero external deps.
-- ⚙️ **A hardened OpenCode compute plane** — OpenCode is a superb coding agent but its server is *unauthenticated*. Our bridge keeps it private, session-gates it, and **namespaces each user to their own workspace**.
-- 🗄️ **A ready schema** — D1 tables for users, sessions, custom agents + memory, invoices, published apps.
-- 🧠 **A craftsmanship-tuned agent pack** — `capy-pack` ships opinionated build rules ("ship real working code, never a placeholder") wired straight into OpenCode.
+- **A model gateway** — one OpenAI-shaped endpoint for every app, with **per-user spend caps** and a **free-tier fallback that costs ~$0**.
+- **A Discord-OAuth auth gate** — membership-gated login + a single `/verify` other services call. Branded, self-contained, zero external deps.
+- **A hardened OpenCode compute plane** — OpenCode is a superb coding agent but its server is *unauthenticated*. Our bridge keeps it private, session-gates it, and **namespaces each user to their own workspace**.
+- **A ready schema** — D1 tables for users, sessions, custom agents + memory, invoices, published apps.
+- **A craftsmanship-tuned agent pack** — `capy-pack` ships opinionated build rules ("ship real working code, never a placeholder") wired straight into OpenCode.
 
 ## What it isn't
 
-- ❌ Not another chatbot wrapper
-- ❌ Not a walled garden — MIT, fork it freely
-- ❌ Not tied to a single model vendor
-- ❌ Not a data-harvesting funnel — secrets stay server-side
+- Not another chatbot wrapper
+- Not a walled garden — MIT, fork it freely
+- Not tied to a single model vendor
+- Not a data-harvesting funnel — secrets stay server-side
 
 ## The three planes
 
@@ -105,12 +105,12 @@ VibeMaestro is part of the **VPDLNY** mission — free, independent, open toolin
 no boss, no strings. The code lives in the open because it should.
 
 <p align="center">
-  <sub>Built by <a href="https://osintnet.uk">Indica Independent</a> · <a href="https://github.com/vpdlny">VPDLNY</a> · info is the weapon ⚔️</sub>
+  <sub>Built by <a href="https://osintnet.uk">Indica Independent</a> · <a href="https://github.com/vpdlny">VPDLNY</a> · info is the weapon </sub>
 </p>
 
 ---
 
-## ⚡ Support the Mission
+## Support the Mission
 
 Free, ad-free, independent infrastructure — no VC, no gov funding, no strings. If it served
 you, a tip keeps it alive and funds the next tool.
@@ -118,4 +118,4 @@ you, a tip keeps it alive and funds the next tool.
 [![Donate via SkyGive](https://img.shields.io/badge/Donate_via_SkyGive-8A5CF6?style=for-the-badge&logoColor=white)](https://donate.skygive.app/)
 [![Lightning](https://img.shields.io/badge/tips@skygive.app-F7931A?style=for-the-badge&logo=lightning&logoColor=white)](https://donate.skygive.app/)
 
-<sub>🧡 Sovereign Lightning + on-chain via SkyGive. Your sats fund uptime, not ads.</sub>
+<sub> Sovereign Lightning + on-chain via SkyGive. Your sats fund uptime, not ads.</sub>
