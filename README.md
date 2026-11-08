@@ -110,12 +110,8 @@ no boss, no strings. The code lives in the open because it should.
 
 ---
 
-## Support the Mission
+## Donations
 
-Free, ad-free, independent infrastructure — no VC, no gov funding, no strings. If it served
-you, a tip keeps it alive and funds the next tool.
+We don't monetize and we don't accept donations. If you have money to give away, you don't need our services. Give it to Ukraine's defense instead: https://u24.gov.ua/donate/defense
 
-[![Donate via SkyGive](https://img.shields.io/badge/Donate_via_SkyGive-8A5CF6?style=for-the-badge&logoColor=white)](https://donate.skygive.app/)
-[![Lightning](https://img.shields.io/badge/tips@skygive.app-F7931A?style=for-the-badge&logo=lightning&logoColor=white)](https://donate.skygive.app/)
-
-<sub> Sovereign Lightning + on-chain via SkyGive. Your sats fund uptime, not ads.</sub>
+[![Donate to Ukraine's defense (UNITED24)](https://img.shields.io/badge/Donate_to_Ukraine%27s_defense_(UNITED24)-0057B7?style=for-the-badge)](https://u24.gov.ua/donate/defense)
